@@ -2,30 +2,29 @@
 require('dotenv').config();
 require('express')().get('/', (req, res) => {
 res.send("Online !");
-
 }).listen();
 
 
 
-//chamando blibliotecas
-
+//chamando bibliotecas
 const Discord = require('discord.js');
-const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const client = new Discord.Client();
 
 
 
+//Inicando evento de ready
 
-//Mundança de status.
  client.on('ready', () => {
-  
+   
+//Aki e o local onde podemos colocar os status do Bot.
     let activities = [
 	
-    'Meu prefixo padrão e -',
-    'Use -help para obter ajuda',
-    'Monitorando varios servidores',
-    'Use -invite para me adicionar em seu servidor!'
+    'status 1',
+    'status 2 ',
+    'status 3 ',
+    'status 4'
   
-  
+  //Caso queira adicionar ou remover outro status ou imagem apague ou adicione ' ' 
 		]
 
 let logos = [
@@ -35,30 +34,35 @@ let logos = [
 "imagem 4.png"
 
 ]
-
-//Indico uso de somente 4 imagens para não tomar  ratelimit
-
-function rand() {
-     let randomAvatars = logos[Math.floor(Math.random() * logos.length)]
-     client.user.setAvatar(randomAvatars)
-		 console.log("Mudei de avatar.")
-} 
-
-
-		i = 0;
-	setInterval(
-		() =>
-			client.user.setActivity(`${activities[i++ % activities.length]}`, {
-				type:  "WATCHING"
-			}),
-		5000
-	);
-
-
  
- setInterval(() => rand(), 22500000)
-console.log("Online")
+//VALORES 
+	 	
+let statustime = 10000; //Indicado por acima de 10 mil (1000 = 1 segundo - 10000 = 10 segundos) 
+let avatartime = 22500000; //Indico não mudar isso para o discord não bloquear troca de avatar do bot
+	
+//coloque na variavel abaixo o tipo de status que quer
+ 
+let tipo = "WATCHING";	//Tipos disponiveis "WATCHING", "PLAYING", "STREAMING", "COMPETING"
+	 
+	 
+	 
+//Não mude nada abaixo 
+function stats() {
+client.user.setActivity(`${activities[i++ % activities.length]}`, { type:  `${tipo}` })	
+}
+function rand() {
+i = 0;
+client.user.setAvatar(`${logos[i++ % logos.length]}`);	
+console.log("Acabei de mudar meu avatar!");
+} 
+ setInterval(() => stats(), statustime)
+ setInterval(() => rand(), avatartime)
 
+	 
+	 
+//Aki fica oque ira aparecer no console quando o bot ficar online
+//Mude caso quiser 
+console.log("Estou Online!")
  });
  
 
